@@ -3,7 +3,7 @@ HELP.md
 ignoretest.txt
 
 #application.properties
-/src/main/resources/application.properties
+src/main/resources/application.properties
 
 
 # Created by https://www.gitignore.io/api/java,maven,windows,eclipse

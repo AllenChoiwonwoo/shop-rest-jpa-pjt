@@ -3,11 +3,8 @@ HELP.md
 ignoretest.txt
 
 #application.properties
+src/main/resources/application.properties
 
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
-!**/src/test/**
 
 # Created by https://www.gitignore.io/api/java,maven,windows,eclipse
 # Edit at https://www.gitignore.io/?templates=java,maven,windows,eclipse

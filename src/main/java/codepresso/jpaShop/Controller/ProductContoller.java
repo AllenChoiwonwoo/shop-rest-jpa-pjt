@@ -50,22 +50,23 @@ public class ProductContoller {
 		prodnumbntoken.setAccesstoken(accesstoken);
 		prodnumbntoken.setProdid(prodId);
 		return productService.getMainProdDetailInfo(prodnumbntoken);
-//		return null;
+
 	}
-//
-//	//9) 상품 상세페이지 - 상세정보
-//	@RequestMapping(value = "/product/detail/{prodId}/info", method=RequestMethod.GET)
-//	public ResultVO getProdDetail(
+
+	//9) 상품 상세페이지 - 상세정보
+	@RequestMapping(value = "/product/detail/{prodId}/info", method=RequestMethod.GET)
+	public ResultVO getProdDetail(
 //			@RequestParam int prodId
-//			) {
-//		logger.info("getProdDetail, prodId = "+prodId+"prodId" );
-//		if(0 == prodId) {
-//			ShopRestJpaServerApplication.returnError("prodId : 0 은 존제하지 않는 상품입니다.");
-//		}
-//		ProdNumbAndTokenVO prodNumbAndTokenVO = new ProdNumbAndTokenVO();
-//		prodNumbAndTokenVO.setProdid(prodId);
-//		return productService.getProdDetail(prodNumbAndTokenVO);
-//	}
+			@PathVariable("prodId") int prodId
+			) {
+		logger.info("getProdDetail, prodId = "+prodId+"prodId" );
+		if(0 == prodId) {
+			ShopRestJpaServerApplication.returnError("prodId : 0 은 존제하지 않는 상품입니다.");
+		}
+		ProdNumbAndTokenVO prodNumbAndTokenVO = new ProdNumbAndTokenVO();
+		prodNumbAndTokenVO.setProdid(prodId);
+		return productService.getProdDetail(prodNumbAndTokenVO);
+	}
 	
 	
 	

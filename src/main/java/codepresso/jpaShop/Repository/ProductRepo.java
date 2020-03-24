@@ -14,7 +14,5 @@ public interface ProductRepo extends CrudRepository<ProductVO, Integer>{
 //	Page<ProductVO> findAll(Pageable pageable);
 	List<ProductDetailVO> findProdDetailListById(int id);
 	Page<ProductVO> findAll(Pageable paging);
-	
-//	@Query
 
 }

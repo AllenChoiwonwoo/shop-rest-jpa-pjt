@@ -20,8 +20,10 @@ import codepresso.jpaShop.DTO.ProdListReturnVO;
 import codepresso.jpaShop.DTO.ProdNumbAndTokenVO;
 import codepresso.jpaShop.DTO.ProductDTO;
 import codepresso.jpaShop.DTO.ResultVO;
+import codepresso.jpaShop.DTO.productDetailDTO;
 import codepresso.jpaShop.Repository.BasketRepo;
 import codepresso.jpaShop.Repository.ProdDAO;
+import codepresso.jpaShop.Repository.ProductDetailRepo;
 import codepresso.jpaShop.Repository.ProductRepo;
 import codepresso.jpaShop.Repository.UserDAO;
 import codepresso.jpaShop.Repository.UserRepo;
@@ -49,6 +51,8 @@ public class ProductService {
 	ProductDetailVO prodDetailVO;
 	@Autowired
 	BasketRepo basketRepo;
+	@Autowired
+	ProductDetailRepo prodDetailRepo;
 	
 	@Transactional
 	public ResultVO getProdList(ProdNumbAndTokenVO prodnumbntoken) {
@@ -133,13 +137,21 @@ public class ProductService {
 //		prodListReturnVO.setProdListData(prodlist);
 //		return ShopRestServerApplication.returnSuccess(prodListReturnVO);
 //	}
-//	
-//	public ResultVO getProdDetail(ProdNumbAndTokenVO prodNumbAndTokenVO) {
-//		List<ProdDetailVO> detailList = proddao.selectOneProdDetail(prodNumbAndTokenVO.getProdid());
-//		ResultVO resultvo = ShopRestServerApplication.returnSuccess(detailList);
-//		return resultvo;
-//	}
-//	
+	
+	//9) 상품 상세페이지 - 상세정보
+	public ResultVO getProdDetail(ProdNumbAndTokenVO prodNumbAndTokenVO) {
+		ProductVO prodvo = productRepo.findById(prodNumbAndTokenVO.getProdid()).get();
+		List<ProductDetailVO> detailList = prodvo.getProdDetailList();
+		List<productDetailDTO> listProdDetailDTO = new ArrayList<productDetailDTO>();
+		for (ProductDetailVO productDetailVO : detailList) {
+			logger.info("getProdDetail , pd id = " +productDetailVO.getId());
+			productDetailDTO pddto = new productDetailDTO(productDetailVO);
+			logger.warn("getProdDetail , "+pddto.toString());
+			listProdDetailDTO.add(pddto);
+		}
+		return ShopRestJpaServerApplication.returnSuccess(listProdDetailDTO);
+	}
+	
 	// 8) 상품 상세페이지 - 메인정보
 	public ResultVO getMainProdDetailInfo(ProdNumbAndTokenVO prodnumbntoken) {
 		// TODO Auto-generated method stub

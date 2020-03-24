@@ -2,6 +2,7 @@ package codepresso.jpaShop.Repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -19,5 +20,7 @@ public interface UtilRepo extends CrudRepository<AnnounceVO, Integer>{
 	// 공지사항
 	@Query("SELECT a FROM AnnounceVO a "+" ORDER BY a.order ASC" )
 	List<AnnounceVO> announceListTest(Pageable pageable);
-
+	
+	Page<AnnounceVO> findAll(Pageable pageable);
+	
 }

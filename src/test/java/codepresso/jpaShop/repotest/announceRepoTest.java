@@ -97,7 +97,7 @@ public class announceRepoTest {
 //			System.out.println( "checkUserInfoToLogin. "+object.toString());
 //		}
 //	}
-	// commit test
+
 	@Test
 	public void insertTokenToUserTest() {
 		UserVO uvo = userRepo.findUserVOByEmail("2who");
@@ -116,6 +116,11 @@ public class announceRepoTest {
 		System.out.println("insertTokenToUserTest, "+uvo.toString());
 //		UserVO resultUVO = userRepo.insertTokenToUser(uvo);
 //		System.out.println("insertTokenToUserTest, "+resultUVO.toString());
+	}
+	@Test
+	public void inserttest() {
+		System.out.println("tet");
+		
 	}
 	
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -20,7 +21,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude= {"ProdDetailList","basketList"})
 @Component
 @Entity
 @Table(name = "production")
@@ -32,6 +33,7 @@ public class ProductVO {
 	private String name;
 	@Column(name="`mainImg`")
 	private String mainImg;
+	@Column(name="`desc`")
 	private String desc;
 	private int price;
 	@Column(name="`salePrice`")
@@ -45,8 +47,10 @@ public class ProductVO {
 //	@OneToMany(mappedBy="id")
 //	private List<ProductDetailVO> prodDetailVOList = new ArrayList<ProductDetailVO>();
 	
+	@OneToMany(mappedBy="productVO", fetch=FetchType.LAZY) // 이걸 LAZY(defaul)로 하면 그냥 그냥으로는 불로와 지지 않고 해당 컬럼을 가져오겠다고 명시해야만 가져오는것으로 보임
+	// 연관관계의 주인은 테이블에 외래키가 있는 곳으로 정해야한다. = 여기선 ProdDetailVO 에 설정 "prodId" 로 설정된 변수 productVO 가 될 것이다.
+	private List<ProductDetailVO> ProdDetailList = new ArrayList<ProductDetailVO>();
 	
-	
-	
-	
+	@OneToMany(mappedBy="productVO", fetch= FetchType.EAGER)
+	private List<BasketVO> basketList = new ArrayList<BasketVO>();
 }

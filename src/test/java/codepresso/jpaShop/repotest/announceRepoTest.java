@@ -97,6 +97,7 @@ public class announceRepoTest {
 //			System.out.println( "checkUserInfoToLogin. "+object.toString());
 //		}
 //	}
+	/*
 
 	@Test
 	public void insertTokenToUserTest() {
@@ -117,11 +118,13 @@ public class announceRepoTest {
 //		UserVO resultUVO = userRepo.insertTokenToUser(uvo);
 //		System.out.println("insertTokenToUserTest, "+resultUVO.toString());
 	}
-	@Test
-	public void inserttest() {
-		System.out.println("tet");
-		
-	}
+	*/
+	
+//	@Test
+//	public void inserttest() {
+//		System.out.println("tet");
+//		
+//	}
 	
 
 	

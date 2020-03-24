@@ -12,11 +12,11 @@ import codepresso.jpaShop.DTO.ResultVO;
 public class ShopRestJpaServerApplication {
 
 	public static void main(String[] args) {
-//		SpringApplication.run(ShopRestJpaServerApplication.class, args);
-		SpringApplication application =
-				new SpringApplication(ShopRestJpaServerApplication.class);
-		application.setWebApplicationType(WebApplicationType.NONE);
-		application.run(args);
+		SpringApplication.run(ShopRestJpaServerApplication.class, args);
+//		SpringApplication application =
+//				new SpringApplication(ShopRestJpaServerApplication.class);
+//		application.setWebApplicationType(WebApplicationType.NONE);
+//		application.run(args);
 	}
 	public static ResultVO returnSuccess(Object obj) {
 		ResultVO rvo = new ResultVO();

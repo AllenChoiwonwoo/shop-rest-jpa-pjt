@@ -19,7 +19,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString( exclude="productVO")
 @Component
 @Entity
 @Table(name="`prodDetail`")
@@ -31,15 +31,18 @@ public class ProductDetailVO {
 //	@JoinColumn(name="id")
 //	@Column(name="`prodId`")
 //	private int prodId;
+	@Column(name="`order`")
 	private int order;
 	private String img;
+	@Column(name="`desc`")
 	private String desc;
+	@Column(name="`createdAt`")
 	private Date createdAt;
 	@Transient
 	private int prodDetail;
 //	
+//	@Column(name="prodId")
 	@ManyToOne
-	@JoinColumn(name="id")
-	@Column(name="prodId")
+	@JoinColumn(name="`prodId`" , nullable=false)
 	private ProductVO productVO;
 }

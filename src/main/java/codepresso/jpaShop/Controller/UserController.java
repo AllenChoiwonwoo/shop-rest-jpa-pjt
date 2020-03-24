@@ -25,7 +25,7 @@ public class UserController {
 
 	
 	public static Logger logger = LoggerFactory.getLogger(UserController.class);
-/*	
+
 	// 2) 회원가입 api
 	@PostMapping("/user/join")
 	public ResultVO joinUser(
@@ -51,5 +51,5 @@ public class UserController {
 		logger.info("login, 호출됨");
 		return userService.login(uservo);
 	}
-*/
+
 }

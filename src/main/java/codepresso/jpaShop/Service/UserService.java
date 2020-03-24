@@ -11,19 +11,17 @@ import org.springframework.stereotype.Repository;
 import codepresso.jpaShop.ShopRestJpaServerApplication;
 import codepresso.jpaShop.DTO.ResultVO;
 import codepresso.jpaShop.DTO.TokenVO;
+import codepresso.jpaShop.Repository.UserRepo;
 import codepresso.jpaShop.domain.UserVO;
-
-
 
 @Repository
 public class UserService {
 	public static Logger logger = LoggerFactory.getLogger(UserService.class);
-//	@Autowired
-//	UserDAO userDao;
+
 	@Autowired
-	codepresso.jpaShop.Repository.UserRepo userRepo;
+	UserRepo userRepo;
 
-
+	// 회원 추가
 	public ResultVO addUser(UserVO uservo) {
 		// TODO Auto-generated method stub
 		ResultVO checkedResult = checkJoinable(uservo);
@@ -36,6 +34,18 @@ public class UserService {
 		return checkedResult;
 	}
 	
+	// 아이디 중복 확인
+	public ResultVO checkEmail(String email) {
+		// TODO Auto-generated method stub
+		UserVO userVO = userRepo.findByEmail(email);
+		if(userVO !=null) {
+			return ShopRestJpaServerApplication.returnError("중복된 이메일 입니다.");
+		}else {
+			return ShopRestJpaServerApplication.returnSuccess(email);
+		}
+	}
+	
+	// 회원가입 가능 여부 확인 (나이, 비밀번호확인, 아이디중복확인 )
 	public ResultVO checkJoinable(UserVO uservo) {
 
 		if(!uservo.getPassword().equals(uservo.getPasswordConfirm())) {
@@ -61,62 +71,42 @@ public class UserService {
 			System.out.println(" 7세 이하"); //- 회원가입 불가
 			return ShopRestJpaServerApplication.returnError( "7세 이상부터 가입할 수 있습니다.");
 		}
-//		if(!userDao.checkEmail(uservo.getEmail())) {
-//			return ShopRestJpaServerApplication.returnError("Email 이 중복되었습니다. 다른 이메일 주소를 적어주세요");
-//
-//		}
-		
+		// 이메일 체크는 회원 추가 전에 함
 		return ShopRestJpaServerApplication.returnSuccess("ok");
 		// 회원가입 가능
 	}
 	
-	public ResultVO checkEmail(String email) {
-		// TODO Auto-generated method stub
-		List<Object[]> resultList = userRepo.checkEmailValidation(email);
-		if (resultList.size() > 0 || resultList == null) {
-			return ShopRestJpaServerApplication.returnError("중복된 이메일 입니다.");
-			
-		}else {
-			return ShopRestJpaServerApplication.returnSuccess(email);
-		}
-//		if(isAvailableEmail) {
-//			ResultVO resultVo = ShopRestServerApplication.returnSuccess(email);
-//			return resultVo;
-//		}else {
-//			ShopRestServerApplication.errorResultVO.setData("중복된 이메일 입니다.");
-//			return ShopRestServerApplication.errorResultVO;
-//		}
-	}
-
-
-	
-	
-	
 	public ResultVO login(UserVO uservo) throws Exception{
 		// 1. 로그인(아이디비번체크) , 2.토큰체크(없으면 발행) , 2-1.발행한 토큰 저장, 3.결과값 반환
-		UserVO resultUserVO = new UserVO();
+		UserVO loginedUserVO = new UserVO();
 		try { // 아이디 비번 체크
-			List<Object[]> listUserVO = userRepo.checkUserInfoToLogin(uservo);
-			resultUserVO.setEmail(listUserVO.get(0)[0].toString());
-			resultUserVO.setPassword(listUserVO.get(0)[1].toString());
-			logger.info("login , userid = "+ listUserVO.get(0)[0].toString());
+			loginedUserVO = userRepo.findByEmailAndPassword(uservo.getEmail(), uservo.getPassword());
+			
+//			List<Object[]> listUserVO = userRepo.checkUserInfoToLogin(uservo);
+//			resultUserVO.setEmail(listUserVO.get(0)[0].toString());
+//			resultUserVO.setPassword(listUserVO.get(0)[1].toString());
+//			logger.info("login , userid = "+ listUserVO.get(0)[0].toString());
 		} catch (Exception e) { // 아이디 비번 불일치
 			logger.info("login, 로그인 실페 - email & password 불일치 ");
 			e.printStackTrace();
 			return ShopRestJpaServerApplication.returnError("아이디와 비밀번호 불일치");
 		}
 //		return null;
-		if(resultUserVO.getToken() != null) {// 이미 토큰이 있을 경우 있는 토큰 반환
+		if(loginedUserVO.getToken() != null) {// 이미 토큰이 있을 경우 있는 토큰 반환
 			logger.info("login, 이미 토큰이 있을 경우 있는 토큰 반환");
-			return ShopRestJpaServerApplication.returnSuccess(new TokenVO(resultUserVO.getToken()));
+			return ShopRestJpaServerApplication.returnSuccess(new TokenVO(loginedUserVO.getToken()));
 		}
 //		return null;
 //		// 토큰 없음, 발행 
 		logger.info("login, 토큰 없음");
 		try {
-			resultUserVO = userRepo.insertTokenToUser(uservo.getEmail(), makeToken());
+			int userId = loginedUserVO.getId();
+			loginedUserVO = userRepo.findById(userId);
+			loginedUserVO.setToken(userId+makeToken());
+			loginedUserVO = userRepo.save(loginedUserVO);
+//			resultUserVO = userRepo.insertTokenToUser(uservo.getEmail(), makeToken());
 			logger.info("login, 발행 후 저장 후 토큰 반환 ");
-			return ShopRestJpaServerApplication.returnSuccess(new TokenVO(resultUserVO.getToken()));
+			return ShopRestJpaServerApplication.returnSuccess(loginedUserVO.getToken());
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.info("login, 토큰 저장 실패 ");
@@ -124,6 +114,8 @@ public class UserService {
 			return ShopRestJpaServerApplication.returnError("로그인 실패 - 토큰 저장 실패");
 		}
 	}
+	
+	// 토큰 생성
 	public static String makeToken(){
 		int length = 8;
 	  StringBuffer buffer = new StringBuffer();
@@ -138,19 +130,5 @@ public class UserService {
 	  }
 	  return buffer.toString();
 	}
-	
-	
-	/*
-	 * public static String makeToken(int id){ int length = 8; StringBuffer buffer =
-	 * new StringBuffer(); buffer.append(id+""); Random random = new Random();
-	 * String chars[] =
-	 * "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".split(",");
-	 * 
-	 * for (int i=0 ; i<length ; i++) {
-	 * buffer.append(chars[random.nextInt(chars.length)]); } return
-	 * buffer.toString(); }
-	 */
-	
-	
 
 }

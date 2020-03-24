@@ -16,55 +16,35 @@ import codepresso.jpaShop.domain.UserVO;
 
 public interface UserRepo extends CrudRepository<UserVO, Integer>{
 //	int addNewMember(UserVO uservo);
+	// 회원 추가
 	public default UserVO insertOneUserInfo(UserVO uservo) {
 		
-		UserVO result = this.save(uservo);
+		UserVO ruvo = this.save(uservo);
 		
 		System.out.println("결과 출력");
-//		System.out.print("-->"+Arrays.toString()));
-		System.out.println(result.toString());
-		return result;
-	}
-
-//	public default void checkEmail(String email) {
-//		this.findUserVOByEmail(email);
-//	}
-	
-	UserVO findUserVOByEmail(String email);
-//	void updateUserVO(UserVO uservo);
-	
-	@Query("SELECT u.id FROM UserVO u WHERE u.email = :#{#email} ")
-	List<Object[]> checkEmailValidation(@Param("email") String email);
-
-	@Query("SELECT u.id, u.token "
-			+ "FROM UserVO u "
-			+ "WHERE u.email = :#{#uservo.email} AND u.password = :#{#uservo.password}")
-	List<Object[]> checkUserInfoToLogin(@Param("uservo") UserVO uservo);
-	
-	default UserVO insertTokenToUser(String email, String token) {
-		UserVO uvo = this.findUserVOByEmail(email);
-//		uvo.setEmail("2who");
-		String newToken = uvo.getId()+token;
-//		logger.info("login, newToken = "+newToken);
-//		uvo.setToken(newToken);
-//		uvo.setBirth(new Date());
-//		uvo.setCreatedAt(new Date());
-//		uvo.setGender(0);
-//		uvo.setPassword("1111");
-//		uvo.setUsername("testCWW");
-//		uvo.setEmail("2who");
-		UserVO ruvo = this.save(uvo);
-		System.out.println("insertTokenToUserTest, "+uvo.toString());
-//		UserVO resultUVO = userRepo.insertTokenToUser(uvo);
-//		System.out.println("insertTokenToUserTest, "+resultUVO.toString());
+		System.out.println(ruvo.toString());
 		return ruvo;
 	}
+	
+	UserVO findUserVOByEmail(String email);	
+	UserVO findByEmail(String email);
+	UserVO findById(int id);
+	UserVO findByEmailAndPassword(String email, String password);
 	
 	UserVO findUserVOByToken(String token);
 //	@Query("SELECT u.id FROM UserVO u WHERE u.token = :#{#token}")
 //	List<Object> selectOneUserByToken(String token) 
 	
 
+	/*	@Query("SELECT u.id, u.token "
+	+ "FROM UserVO u "
+	+ "WHERE u.email = :#{#uservo.email} AND u.password = :#{#uservo.password}")
+	List<Object[]> checkUserInfoToLogin(@Param("uservo") UserVO uservo);
+*/
+	/*	//이거 열심히 만든건데 ..아까워서 남길거야.. ㅠㅜ
+	@Query("SELECT u.id FROM UserVO u WHERE u.email = :#{#email} ")
+	List<Object[]> checkEmailValidation(@Param("email") String email);
+*/
 	
 //	@Modifying
 //	@Transactional

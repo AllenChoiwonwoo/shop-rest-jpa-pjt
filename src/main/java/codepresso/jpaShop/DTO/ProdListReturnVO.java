@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import codepresso.shop.vo.ProdVO;
+import codepresso.jpaShop.domain.ProductVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,6 +15,6 @@ import lombok.ToString;
 @Component
 public class ProdListReturnVO {
 	private int userId;
-	private List<ProdVO> prodListData;
+	private List<ProductVO> prodListData;
 
 }

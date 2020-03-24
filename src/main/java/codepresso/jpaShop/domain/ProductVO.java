@@ -44,6 +44,7 @@ public class ProductVO {
 	@Transient
 	private boolean isInBasket = false;
 	
+	
 //	@OneToMany(mappedBy="id")
 //	private List<ProductDetailVO> prodDetailVOList = new ArrayList<ProductDetailVO>();
 	
@@ -53,4 +54,8 @@ public class ProductVO {
 	
 	@OneToMany(mappedBy="productVO", fetch= FetchType.EAGER)
 	private List<BasketVO> basketList = new ArrayList<BasketVO>();
+	
+	public boolean getIsInBasket() {
+		return this.isInBasket;
+	}
 }

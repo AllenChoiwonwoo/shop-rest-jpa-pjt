@@ -26,19 +26,19 @@ public class ProductContoller {
 	@Autowired
 	ProductService productService;
 	
-//	// 7) 상품 더보기 
-//	@RequestMapping(value = {"/product/list/{lastPordId}"}, method=RequestMethod.GET)
-//	public ResultVO getProdListForMain(
-//			@PathVariable("lastPordId") int lastProdId,
-//			@RequestHeader(value="accesstoken", required=false) String accesstoken,
-//			HttpServletRequest request, HttpServletResponse response) {
-//			
-//		logger.info("getProdListForMain , called ,token = "+accesstoken+", lastpostid = "+lastProdId);
-//		ProdNumbAndTokenVO prodnumbntoken = new ProdNumbAndTokenVO();
-//		prodnumbntoken.setAccesstoken(accesstoken);
-//		prodnumbntoken.setLastProdId(lastProdId);
-//		return productService.getProdList(prodnumbntoken);
-//	}
+	// 7) 상품 더보기 
+	@RequestMapping(value = {"/product/list/offset/{lastPordId}"}, method=RequestMethod.GET)
+	public ResultVO getProdListForMain(
+			@PathVariable("lastPordId") int lastProdId,
+			@RequestHeader(value="accesstoken", required=false) String accesstoken,
+			HttpServletRequest request, HttpServletResponse response) {
+			
+		logger.info("getProdListForMain , called ,token = "+accesstoken+", lastpostid = "+lastProdId);
+		ProdNumbAndTokenVO prodnumbntoken = new ProdNumbAndTokenVO();
+		prodnumbntoken.setAccesstoken(accesstoken);
+		prodnumbntoken.setLastProdId(lastProdId);
+		return productService.getProdList(prodnumbntoken);
+	}
 //	// 8) 상품 상세페이지 - 메인정보
 //	@RequestMapping(value="/product/detail/{prodId}/main", method=RequestMethod.GET)
 //	public ResultVO getMainProdDetailInfo(

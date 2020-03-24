@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import codepresso.jpaShop.Repository.BasketRepo;
@@ -33,6 +37,8 @@ public class tempRelationMappingTest {
 	private ProductDetailRepo proddetailrepo;
 	@Autowired
 	private BasketRepo basketRepo;
+	@Autowired
+	ProductRepo productRepo;
 //		member1.
 	/*
 	@Test // @joinColunm 연습 용
@@ -99,29 +105,41 @@ public class tempRelationMappingTest {
 //		System.out.println(" 상품 명 : "+bvo.getProductVO().getName());
 //	}
 	
-	@Test //장바구니 에 있나 확인한 product list
+//	@Test //장바구니 에 있나 확인한 product list
+//	@Transactional
+//	public void testManyToOneSelect3() {
+//		List<ProductVO> prodList = (List<ProductVO>) prodRepo.findAll();
+////		System.out.println(prodList.size());
+//		System.out.println(" 실행 결과 ");
+//		for (ProductVO productVO : prodList) {
+//			System.out.println("proid = "+ productVO.getId());
+//			System.out.println( "prodName = "+ productVO.getName());
+//			System.out.println("basketSize ="+ productVO.getBasketList().size());
+//			List<BasketVO> basketList = productVO.getBasketList();
+//			boolean isInBasket = false;
+//			for (BasketVO basketvo : basketList) {
+//				if(basketvo.getUserId() == 4 ) {
+//					isInBasket = true;
+//					break;
+//				}
+////				isInBasket = (basketvo.getUserId() == 1 )?true:false;
+////				break;
+//			}
+//			System.out.println("isInbasket = "+isInBasket);
+//			System.out.println(" ----------------------");
+//		}
+//	}
+	
+	@Test
 	@Transactional
-	public void testManyToOneSelect3() {
-		List<ProductVO> prodList = (List<ProductVO>) prodRepo.findAll();
-//		System.out.println(prodList.size());
-		System.out.println(" 실행 결과 ");
-		for (ProductVO productVO : prodList) {
-			System.out.println("proid = "+ productVO.getId());
-			System.out.println( "prodName = "+ productVO.getName());
-			System.out.println("basketSize ="+ productVO.getBasketList().size());
-			List<BasketVO> basketList = productVO.getBasketList();
-			boolean isInBasket = false;
-			for (BasketVO basketvo : basketList) {
-				if(basketvo.getUserId() == 4 ) {
-					isInBasket = true;
-					break;
-				}
-//				isInBasket = (basketvo.getUserId() == 1 )?true:false;
-//				break;
-			}
-			System.out.println("isInbasket = "+isInBasket);
-			System.out.println(" ----------------------");
-		}
+	public void softest() {
+		int lastPage = 0;
+		Pageable paging = PageRequest.of(lastPage, 6, Sort.Direction.ASC, "id");// (이것부터<limit> , 이거만큼<offset>, 정렬함수, 정렬기준 col)
+		
+		Page<ProductVO> prodPages = productRepo.findAll(paging);
+		List<ProductVO> prodListPaged = prodPages.getContent();
+		
+		System.out.println("prodListpaged.size = "+ prodListPaged.size());
 	}
 	
 	/*

@@ -20,11 +20,12 @@ import codepresso.jpaShop.DTO.ProdListReturnVO;
 import codepresso.jpaShop.DTO.ProdNumbAndTokenVO;
 import codepresso.jpaShop.DTO.ProductDTO;
 import codepresso.jpaShop.DTO.ResultVO;
+import codepresso.jpaShop.Repository.BasketRepo;
 import codepresso.jpaShop.Repository.ProdDAO;
 import codepresso.jpaShop.Repository.ProductRepo;
 import codepresso.jpaShop.Repository.UserDAO;
 import codepresso.jpaShop.Repository.UserRepo;
-
+import codepresso.jpaShop.domain.BasketVO;
 import codepresso.jpaShop.domain.ProductDetailVO;
 import codepresso.jpaShop.domain.ProductVO;
 import codepresso.jpaShop.domain.UserVO;
@@ -32,7 +33,7 @@ import codepresso.jpaShop.domain.UserVO;
 
 @Service
 public class ProductService {
-	public static Logger logger = LoggerFactory.getLogger(ProdDAO.class);
+	public static Logger logger = LoggerFactory.getLogger(ProductService.class);
 	
 	@Autowired
 	UserDAO userdao;
@@ -46,6 +47,8 @@ public class ProductService {
 	ProductRepo productRepo;
 	@Autowired
 	ProductDetailVO prodDetailVO;
+	@Autowired
+	BasketRepo basketRepo;
 	
 	@Transactional
 	public ResultVO getProdList(ProdNumbAndTokenVO prodnumbntoken) {
@@ -103,6 +106,7 @@ public class ProductService {
 		return ShopRestJpaServerApplication.returnError(pagedProdDTO);
 		
 	}
+	
 //		prodlist = proddao.getProdList(prodnumbntoken.getLastProdId());
 //		prodnumbntoken.setUserid(0);
 //		List<ProdVO> prodlist =new ArrayList<ProdVO>();
@@ -136,20 +140,48 @@ public class ProductService {
 //		return resultvo;
 //	}
 //	
-//	public ResultVO getMainProdDetailInfo(ProdNumbAndTokenVO prodnumbntoken) {
-//		// TODO Auto-generated method stub
-//		int userid;
-//		if(prodnumbntoken.getAccesstoken() != null) {
-//			userid = userdao.selectOneUserByToken(prodnumbntoken.getAccesstoken());
-//		}else {
-//			userid = 0;
-//		}
-//		prodnumbntoken.setUserid(userid);
-//		ProdVO prodVO = proddao.selectOneProdMainInfo(prodnumbntoken);
-//		return ShopRestServerApplication.returnSuccess(prodVO);
-////		return null;
-//	}
-//	
-//	
+	// 8) 상품 상세페이지 - 메인정보
+	public ResultVO getMainProdDetailInfo(ProdNumbAndTokenVO prodnumbntoken) {
+		// TODO Auto-generated method stub
+		UserVO uservo = userRepo.findUserVOByToken(prodnumbntoken.getAccesstoken());
+//		prodnumbntoken.setProdid(3);
+		ProductVO prodvo = productRepo.findById(prodnumbntoken.getProdid()).get();
+		ProductDTO prodDTO = new ProductDTO();
+		if(prodnumbntoken.getAccesstoken() != null) {//로그인 중일 경우
+			logger.info("getMainProdDetailInfo . 로그인 중 "+uservo.getId());
+			List<BasketVO> listBasketvo = basketRepo.findByUserId(uservo.getId());
+			logger.info("getMainProdDetailInfo . listBakset.size = "+listBasketvo.size());
+			for (BasketVO basketVO2 : listBasketvo) {
+				logger.info("getMainProdDetailInfo . prodid 일치여부를 찾기위한 비교중");
+				if (basketVO2.getProductVO().getId() == prodnumbntoken.getProdid() ) {
+					prodDTO.setInBasket(true);//해당 상품을 유저가 장바구니에 담아놓음
+					logger.info("getMainProdDetailInfo . pordid 일치 true 반환");
+					break;
+				}
+			}
+		}
+		prodDTO.setValue(prodvo);// inInBasket 은default 가 false
+		return ShopRestJpaServerApplication.returnSuccess(prodDTO);
+
+	}
+	
+	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

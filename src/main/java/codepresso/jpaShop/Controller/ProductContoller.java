@@ -39,19 +39,19 @@ public class ProductContoller {
 		prodnumbntoken.setLastProdId(lastProdId);
 		return productService.getProdList(prodnumbntoken);
 	}
-//	// 8) 상품 상세페이지 - 메인정보
-//	@RequestMapping(value="/product/detail/{prodId}/main", method=RequestMethod.GET)
-//	public ResultVO getMainProdDetailInfo(
-//			@PathVariable("prodId") int prodId,
-//			@RequestHeader(value="accesstoken", required=false) String accesstoken
-//			) {
-//		logger.info("getMainProdDetailInfo , prodId ="+prodId);
-//		ProdNumbAndTokenVO prodnumbntoken = new ProdNumbAndTokenVO();
-//		prodnumbntoken.setAccesstoken(accesstoken);
-//		prodnumbntoken.setProdid(prodId);
-//		return productService.getMainProdDetailInfo(prodnumbntoken);
-////		return null;
-//	}
+	// 8) 상품 상세페이지 - 메인정보
+	@RequestMapping(value="/product/detail/{prodId}/main", method=RequestMethod.GET)
+	public ResultVO getMainProdDetailInfo(
+			@PathVariable("prodId") int prodId,
+			@RequestHeader(value="accesstoken", required=false) String accesstoken
+			) {
+		logger.info("getMainProdDetailInfo , prodId ="+prodId);
+		ProdNumbAndTokenVO prodnumbntoken = new ProdNumbAndTokenVO();
+		prodnumbntoken.setAccesstoken(accesstoken);
+		prodnumbntoken.setProdid(prodId);
+		return productService.getMainProdDetailInfo(prodnumbntoken);
+//		return null;
+	}
 //
 //	//9) 상품 상세페이지 - 상세정보
 //	@RequestMapping(value = "/product/detail/{prodId}/info", method=RequestMethod.GET)

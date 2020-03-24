@@ -97,6 +97,7 @@ public class announceRepoTest {
 //			System.out.println( "checkUserInfoToLogin. "+object.toString());
 //		}
 //	}
+	// commit test
 	@Test
 	public void insertTokenToUserTest() {
 		UserVO uvo = userRepo.findUserVOByEmail("2who");

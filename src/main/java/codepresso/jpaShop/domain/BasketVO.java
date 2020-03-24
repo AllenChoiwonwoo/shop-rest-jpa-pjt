@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 
+import codepresso.jpaShop.DTO.BasketDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -38,4 +39,13 @@ public class BasketVO {
 	@ManyToOne
 	@JoinColumn(name="`prodId`", nullable=true)
 	private ProductVO productVO;
+	
+//	public BasketDTO(BasketDTO bdto) {
+//		super();
+//		this.id = bdto.getId();
+//		this.prodId = bdto.getProdId()
+//		this.userId = bdto.getUserId();
+//		this.prodVolumn = bdto.getProdVolume();
+//		this.createdAt = bdto.getCreatedAt();
+//	}
 }

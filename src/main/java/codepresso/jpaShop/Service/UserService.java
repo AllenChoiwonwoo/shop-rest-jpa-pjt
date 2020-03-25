@@ -1,7 +1,6 @@
 package codepresso.jpaShop.Service;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import codepresso.jpaShop.ShopRestJpaServerApplication;
-import codepresso.jpaShop.DTO.ResultVO;
+import codepresso.jpaShop.DTO.ResultDTO;
 import codepresso.jpaShop.DTO.TokenVO;
 import codepresso.jpaShop.Repository.UserRepo;
 import codepresso.jpaShop.domain.UserVO;
@@ -22,20 +21,20 @@ public class UserService {
 	UserRepo userRepo;
 
 	// 회원 추가
-	public ResultVO addUser(UserVO uservo) {
+	public ResultDTO addUser(UserVO uservo) {
 		// TODO Auto-generated method stub
-		ResultVO checkedResult = checkJoinable(uservo);
+		ResultDTO checkedResult = checkJoinable(uservo);
 		if(checkedResult.getCode()!=200) {
 			return checkedResult;
 		}else {
-			UserVO r_uservo = userRepo.insertOneUserInfo(uservo);
+//			UserVO r_uservo = userRepo.insertOneUserInfo(uservo);
 			checkedResult = ShopRestJpaServerApplication.returnSuccess("join success");
 		}	
 		return checkedResult;
 	}
 	
 	// 아이디 중복 확인
-	public ResultVO checkEmail(String email) {
+	public ResultDTO checkEmail(String email) {
 		// TODO Auto-generated method stub
 		UserVO userVO = userRepo.findByEmail(email);
 		if(userVO !=null) {
@@ -46,7 +45,7 @@ public class UserService {
 	}
 	
 	// 회원가입 가능 여부 확인 (나이, 비밀번호확인, 아이디중복확인 )
-	public ResultVO checkJoinable(UserVO uservo) {
+	public ResultDTO checkJoinable(UserVO uservo) {
 
 		if(!uservo.getPassword().equals(uservo.getPasswordConfirm())) {
 			//비밀번호 불일치 - 회원가입 불가
@@ -76,27 +75,20 @@ public class UserService {
 		// 회원가입 가능
 	}
 	
-	public ResultVO login(UserVO uservo) throws Exception{
+	public ResultDTO login(UserVO uservo) throws Exception{
 		// 1. 로그인(아이디비번체크) , 2.토큰체크(없으면 발행) , 2-1.발행한 토큰 저장, 3.결과값 반환
 		UserVO loginedUserVO = new UserVO();
 		try { // 아이디 비번 체크
 			loginedUserVO = userRepo.findByEmailAndPassword(uservo.getEmail(), uservo.getPassword());
-			
-//			List<Object[]> listUserVO = userRepo.checkUserInfoToLogin(uservo);
-//			resultUserVO.setEmail(listUserVO.get(0)[0].toString());
-//			resultUserVO.setPassword(listUserVO.get(0)[1].toString());
-//			logger.info("login , userid = "+ listUserVO.get(0)[0].toString());
 		} catch (Exception e) { // 아이디 비번 불일치
 			logger.info("login, 로그인 실페 - email & password 불일치 ");
 			e.printStackTrace();
 			return ShopRestJpaServerApplication.returnError("아이디와 비밀번호 불일치");
 		}
-//		return null;
 		if(loginedUserVO.getToken() != null) {// 이미 토큰이 있을 경우 있는 토큰 반환
 			logger.info("login, 이미 토큰이 있을 경우 있는 토큰 반환");
 			return ShopRestJpaServerApplication.returnSuccess(new TokenVO(loginedUserVO.getToken()));
 		}
-//		return null;
 //		// 토큰 없음, 발행 
 		logger.info("login, 토큰 없음");
 		try {
@@ -108,7 +100,6 @@ public class UserService {
 			logger.info("login, 발행 후 저장 후 토큰 반환 ");
 			return ShopRestJpaServerApplication.returnSuccess(loginedUserVO.getToken());
 		} catch (Exception e) {
-			// TODO: handle exception
 			logger.info("login, 토큰 저장 실패 ");
 			e.printStackTrace();
 			return ShopRestJpaServerApplication.returnError("로그인 실패 - 토큰 저장 실패");

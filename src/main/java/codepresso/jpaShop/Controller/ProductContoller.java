@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import codepresso.jpaShop.ShopRestJpaServerApplication;
-import codepresso.jpaShop.DTO.ProdNumbAndTokenVO;
-import codepresso.jpaShop.DTO.ResultVO;
+import codepresso.jpaShop.DTO.ProdNumbAndTokenDTO;
+import codepresso.jpaShop.DTO.ResultDTO;
 import codepresso.jpaShop.Service.ProductService;
 
 
@@ -28,25 +28,25 @@ public class ProductContoller {
 	
 	// 7) 상품 더보기 
 	@RequestMapping(value = {"/product/list/offset/{lastPordId}"}, method=RequestMethod.GET)
-	public ResultVO getProdListForMain(
+	public ResultDTO getProdListForMain(
 			@PathVariable("lastPordId") int lastProdId,
 			@RequestHeader(value="accesstoken", required=false) String accesstoken,
 			HttpServletRequest request, HttpServletResponse response) {
 			
 		logger.info("getProdListForMain , called ,token = "+accesstoken+", lastpostid = "+lastProdId);
-		ProdNumbAndTokenVO prodnumbntoken = new ProdNumbAndTokenVO();
+		ProdNumbAndTokenDTO prodnumbntoken = new ProdNumbAndTokenDTO();
 		prodnumbntoken.setAccesstoken(accesstoken);
 		prodnumbntoken.setLastProdId(lastProdId);
 		return productService.getProdList(prodnumbntoken);
 	}
 	// 8) 상품 상세페이지 - 메인정보
 	@RequestMapping(value="/product/detail/{prodId}/main", method=RequestMethod.GET)
-	public ResultVO getMainProdDetailInfo(
+	public ResultDTO getMainProdDetailInfo(
 			@PathVariable("prodId") int prodId,
 			@RequestHeader(value="accesstoken", required=false) String accesstoken
 			) {
 		logger.info("getMainProdDetailInfo , prodId ="+prodId);
-		ProdNumbAndTokenVO prodnumbntoken = new ProdNumbAndTokenVO();
+		ProdNumbAndTokenDTO prodnumbntoken = new ProdNumbAndTokenDTO();
 		prodnumbntoken.setAccesstoken(accesstoken);
 		prodnumbntoken.setProdid(prodId);
 		return productService.getMainProdDetailInfo(prodnumbntoken);
@@ -55,7 +55,7 @@ public class ProductContoller {
 
 	//9) 상품 상세페이지 - 상세정보
 	@RequestMapping(value = "/product/detail/{prodId}/info", method=RequestMethod.GET)
-	public ResultVO getProdDetail(
+	public ResultDTO getProdDetail(
 //			@RequestParam int prodId
 			@PathVariable("prodId") int prodId
 			) {
@@ -63,9 +63,9 @@ public class ProductContoller {
 		if(0 == prodId) {
 			ShopRestJpaServerApplication.returnError("prodId : 0 은 존제하지 않는 상품입니다.");
 		}
-		ProdNumbAndTokenVO prodNumbAndTokenVO = new ProdNumbAndTokenVO();
-		prodNumbAndTokenVO.setProdid(prodId);
-		return productService.getProdDetail(prodNumbAndTokenVO);
+		ProdNumbAndTokenDTO prodNumbAndTokenDTO = new ProdNumbAndTokenDTO();
+		prodNumbAndTokenDTO.setProdid(prodId);
+		return productService.getProdDetail(prodNumbAndTokenDTO);
 	}
 	
 	

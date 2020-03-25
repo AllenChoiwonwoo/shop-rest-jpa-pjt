@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import codepresso.jpaShop.DTO.BasketDTO;
-import codepresso.jpaShop.DTO.ResultVO;
+import codepresso.jpaShop.DTO.ResultDTO;
 import codepresso.jpaShop.Service.BasketService;
-import codepresso.jpaShop.domain.BasketVO;
 
 
 @RestController
@@ -25,16 +24,15 @@ public class BasketController {
 	
 	// 10) 장바구니에 담기
 	@PostMapping("/basket")
-	public ResultVO addToBasket(
+	public ResultDTO addToBasket(
 			@RequestHeader(value="accesstoken", required=false) String accesstoken,
 			@RequestBody BasketDTO basketDTO
 			) {
-//		System.out.println(accesstoken+" buket  "+basketvo.toString());
 		return basketService.addOneProdToBasket(accesstoken,basketDTO);
 	}
 	//  11) 장바구니 가져오기
 	@GetMapping("/basket")
-	public ResultVO getAllFromBasket(
+	public ResultDTO getAllFromBasket(
 			@RequestHeader(value="accesstoken", required=false) String accesstoken
 			) {
 				return basketService.getAllFromBasket(accesstoken);
@@ -42,12 +40,11 @@ public class BasketController {
 	
 	// 12) 장바구니 빼기
 	@DeleteMapping("/basket")
-	public ResultVO deleteFromBasket(
+	public ResultDTO deleteFromBasket(
 			@RequestHeader(value="accesstoken", required=false) String accesstoken,
 			@RequestBody BasketDTO basketDTO
 			) {
 		
-//		System.out.println(accesstoken+" basket  "+basketvo.toString());
 		return basketService.deleteOneProdFromBasket(accesstoken, basketDTO);
 	}
 }

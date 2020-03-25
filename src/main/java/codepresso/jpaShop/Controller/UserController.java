@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import codepresso.jpaShop.DTO.ResultVO;
+import codepresso.jpaShop.DTO.ResultDTO;
 import codepresso.jpaShop.Service.UserService;
 import codepresso.jpaShop.domain.UserVO;
 
@@ -28,7 +28,7 @@ public class UserController {
 
 	// 2) 회원가입 api
 	@PostMapping("/user/join")
-	public ResultVO joinUser(
+	public ResultDTO joinUser(
 			@RequestBody UserVO uservo) throws Exception {
 		logger.info("joinUser, 호출됨");
 		return userService.addUser(uservo);
@@ -36,16 +36,16 @@ public class UserController {
 
 	//3) 아이디 중복 확인api
 	@GetMapping("/user/emailConfirm")
-	public ResultVO emailConfirm(
+	public ResultDTO emailConfirm(
 			@RequestParam String email) throws Exception{
 			logger.info("emailConfirm, 호출됨");
-			ResultVO resultvo = userService.checkEmail(email);
+			ResultDTO resultvo = userService.checkEmail(email);
 		return resultvo;
 	}
 	
 	//4) 로그인 api ..
 	@PostMapping("/user/login")
-	public ResultVO login(
+	public ResultDTO login(
 			@RequestBody UserVO uservo,HttpServletRequest request, HttpServletResponse response
 			) throws Exception{
 		logger.info("login, 호출됨");

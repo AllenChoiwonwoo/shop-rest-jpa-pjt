@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Component
-public class ProdListReturnVO {
+public class ProdListReturnDTO {
 	private int userId;
 	private List<ProductVO> prodListData;
 

@@ -10,10 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import codepresso.jpaShop.ShopRestJpaServerApplication;
-import codepresso.jpaShop.Controller.BasketController;
 import codepresso.jpaShop.DTO.BasketDTO;
 import codepresso.jpaShop.DTO.BasketWithProdMainInfoDTO;
-import codepresso.jpaShop.DTO.ResultVO;
+import codepresso.jpaShop.DTO.ResultDTO;
 import codepresso.jpaShop.Repository.BasketRepo;
 import codepresso.jpaShop.Repository.ProductRepo;
 import codepresso.jpaShop.Repository.UserRepo;
@@ -27,11 +26,6 @@ import codepresso.jpaShop.domain.UserVO;
 public class BasketService {
 	public static Logger logger = LoggerFactory.getLogger(BasketService.class);
 
-//	
-//	@Autowired
-//	BasketDAO basketdao;
-//	@Autowired
-//	UserDAO userdao;
 	@Autowired
 	BasketRepo basketRepo;
 	@Autowired
@@ -40,8 +34,7 @@ public class BasketService {
 	ProductRepo prodRepo;
 	
 	// 10) 장바구니에 담기
-	public ResultVO addOneProdToBasket(String accesstoken, BasketDTO basketDTO) {
-//		int userid = userdao.selectOneUserByToken(accesstoken);
+	public ResultDTO addOneProdToBasket(String accesstoken, BasketDTO basketDTO) {
 		UserVO uservo = userRepo.findUserVOByToken(accesstoken);
 		ProductVO prodvo = prodRepo.findById(basketDTO.getProdId()).get();
 		BasketVO basketvo = new BasketVO();
@@ -63,7 +56,7 @@ public class BasketService {
 		
 	}
 //  11) 장바구니 가져오기
-	public ResultVO getAllFromBasket(String accesstoken) {
+	public ResultDTO getAllFromBasket(String accesstoken) {
 		UserVO uservo = userRepo.findUserVOByToken(accesstoken);
 		List<BasketVO> listBasketvo = basketRepo.findByUserId(uservo.getId());
 		BasketWithProdMainInfoDTO bifDTO = new BasketWithProdMainInfoDTO();
@@ -76,8 +69,7 @@ public class BasketService {
 	}
 	
 	// 12) 장바구니 빼기
-	public ResultVO deleteOneProdFromBasket(String accesstoken, BasketDTO basketDTO) {
-//		int userid = userdao.selectOneUserByToken(accesstoken);
+	public ResultDTO deleteOneProdFromBasket(String accesstoken, BasketDTO basketDTO) {
 		UserVO uservo = userRepo.findUserVOByToken(accesstoken);
 		List<BasketVO> listbvo = basketRepo.findByUserId(uservo.getId());
 		for (BasketVO basketVO2 : listbvo) {

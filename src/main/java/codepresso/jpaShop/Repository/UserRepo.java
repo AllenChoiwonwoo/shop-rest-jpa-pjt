@@ -1,17 +1,6 @@
 package codepresso.jpaShop.Repository;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-
-import javax.transaction.Transactional;
-
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
-
-import codepresso.jpaShop.ShopRestJpaServerApplication;
 import codepresso.jpaShop.domain.UserVO;
 
 public interface UserRepo extends CrudRepository<UserVO, Integer>{
@@ -32,6 +21,8 @@ public interface UserRepo extends CrudRepository<UserVO, Integer>{
 	UserVO findByEmailAndPassword(String email, String password);
 	
 	UserVO findUserVOByToken(String token);
+	
+	
 //	@Query("SELECT u.id FROM UserVO u WHERE u.token = :#{#token}")
 //	List<Object> selectOneUserByToken(String token) 
 	

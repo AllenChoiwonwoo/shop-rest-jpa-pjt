@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import codepresso.jpaShop.DTO.ResultVO;
+import codepresso.jpaShop.DTO.ResultDTO;
 import codepresso.jpaShop.Service.UtilService;
 
 
@@ -19,7 +19,7 @@ public class UtilController {
 	
 	//6) 공지 가져오기
 	@GetMapping("/announce")
-	public ResultVO getAnnounce() throws Exception{
+	public ResultDTO getAnnounce() throws Exception{
 			logger.info("getAnnounce, 호출됨");
 			return utilService.getAllAnnouces();
 	}

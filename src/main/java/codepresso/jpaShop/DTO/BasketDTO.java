@@ -2,9 +2,6 @@ package codepresso.jpaShop.DTO;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-
 import org.springframework.stereotype.Component;
 
 import codepresso.jpaShop.domain.BasketVO;

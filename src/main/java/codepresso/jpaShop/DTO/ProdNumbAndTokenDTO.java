@@ -3,7 +3,7 @@ package codepresso.jpaShop.DTO;
 import lombok.Data;
 
 @Data
-public class ProdNumbAndTokenVO {
+public class ProdNumbAndTokenDTO {
 	private String accesstoken;
 	private int lastProdId;
 	private int userid;

@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import codepresso.jpaShop.DTO.ResultVO;
+import codepresso.jpaShop.DTO.ResultDTO;
 
 
 
@@ -18,15 +18,15 @@ public class ShopRestJpaServerApplication {
 //		application.setWebApplicationType(WebApplicationType.NONE);
 //		application.run(args);
 	}
-	public static ResultVO returnSuccess(Object obj) {
-		ResultVO rvo = new ResultVO();
+	public static ResultDTO returnSuccess(Object obj) {
+		ResultDTO rvo = new ResultDTO();
 		rvo.setCode(200);
 		rvo.setMessage("Success");
 		rvo.setData(obj);
 		return rvo;
 	}
-	public static ResultVO returnError(Object obj) {
-		ResultVO rvo = new ResultVO();
+	public static ResultDTO returnError(Object obj) {
+		ResultDTO rvo = new ResultDTO();
 		rvo.setCode(500);
 		rvo.setMessage("Fail");
 		rvo.setData(obj);

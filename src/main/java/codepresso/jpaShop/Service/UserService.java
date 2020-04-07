@@ -25,10 +25,14 @@ public class UserService {
 		// TODO Auto-generated method stub
 		ResultDTO checkedResult = checkJoinable(uservo);
 		if(checkedResult.getCode()!=200) {
+//			System.out.println(" 불가능");
 			return checkedResult;
 		}else {
-//			UserVO r_uservo = userRepo.insertOneUserInfo(uservo);
-			checkedResult = ShopRestJpaServerApplication.returnSuccess("join success");
+//			System.out.println(" 가능 ");
+			UserVO r_uservo = userRepo.insertOneUserInfo(uservo);
+			r_uservo.setPassword(null);
+			r_uservo.setPasswordConfirm(null);
+			checkedResult = ShopRestJpaServerApplication.returnSuccess(r_uservo);
 		}	
 		return checkedResult;
 	}

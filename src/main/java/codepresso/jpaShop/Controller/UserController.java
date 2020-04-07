@@ -31,6 +31,7 @@ public class UserController {
 	public ResultDTO joinUser(
 			@RequestBody UserVO uservo) throws Exception {
 		logger.info("joinUser, 호출됨");
+		logger.info(uservo.toString());
 		return userService.addUser(uservo);
 	}
 

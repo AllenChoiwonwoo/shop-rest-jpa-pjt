@@ -46,6 +46,10 @@ public class ProductContoller {
 			@RequestHeader(value="accesstoken", required=false) String accesstoken
 			) {
 		logger.info("getMainProdDetailInfo , prodId ="+prodId);
+		System.out.println("getMainProdDetailInfo , accesstoken ="+accesstoken); 
+		// accesstoken = [object Object]
+		// 이거 질문거리가 될 수 있겠구먼
+		// 내 추축은 header 라는 객체가 String accesstoken 에 담기는 건가? 
 		ProdNumbAndTokenDTO prodnumbntoken = new ProdNumbAndTokenDTO();
 		prodnumbntoken.setAccesstoken(accesstoken);
 		prodnumbntoken.setProdid(prodId);

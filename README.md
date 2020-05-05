@@ -1,10 +1,25 @@
-## cns-boot  
-### Codepresso Simple SNS project for practice  
+# Shop Rest API Server
+### Codepresso Simple Shopping Mall BackEnd Project 
+이 프로젝트는 API 서버이며 프론트 엔드는 [https://github.com/AllenChoiwonwoo/cp_shop_vue](https://github.com/AllenChoiwonwoo/cp_shop_vue) 를 사용합니다.
+
 ### 메인화면
-![main](./images/cns-boot.png)
----  
+- BaseUrl : http://localhost:8081/
+![main](./main_page_image_1.PNG)
+
+
 ### 프로젝트 소개
-트위터 같은 sns 프로젝트 입니다
+
+간단한 쇼핑몰입니다.
+
+**기능**
+
+1. 로그인
+2. 회원가입
+3. 메인페이지(상품리스트 페이지)
+4. 상품상세페이지
+5. 장바구니(회원전용)
+
+
 ### 제작정보
 codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.  
 ##### http://codepresso.kr/  
@@ -12,7 +27,8 @@ codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.
 * springboot  
 * MySQL
 * JPA 
-* Freemarker  
+* MySQL
+
 ### 필수조건 안내
 * java 8 이상이 필요합니다.  
 * STS 설치권장  
@@ -53,4 +69,4 @@ codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.
 
 ### 저작권
 codepresso  
-![codepresso log](./images/codepresso-logo.png)
+![codepresso logo](./images/codepresso-logo.png)
